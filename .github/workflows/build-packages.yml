@@ -29,10 +29,12 @@ jobs:
           sudo apt-get install -y wget ca-certificates
           
           # Download and install static XBPS binaries
-          XBPS_VERSION="0.59.2"
           wget https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz
-          sudo tar xvf xbps-static-latest.x86_64-musl.tar.xz -C /usr/local
-          sudo ldconfig
+          sudo tar xvf xbps-static-latest.x86_64-musl.tar.xz -C /
+          
+          # Verify installation
+          which xbps-install
+          xbps-install --version
 
       - name: Clone void-packages
         run: |

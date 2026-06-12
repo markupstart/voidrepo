@@ -13,55 +13,52 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/void-linux/void-glibc-full:latest
+      options: --privileged
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-      VOID_PACKAGES_DIR: ${{ github.workspace }}/void-packages
-      XBPS_DISTDIR: ${{ github.workspace }}/void-packages
+      VOID_PACKAGES_DIR: /void-packages
+      HOME: /root
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install dependencies
+      - name: Install git (if needed)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential git curl ca-certificates xz-utils
+          if ! command -v git &> /dev/null; then
+            xbps-install -Syu xbps
+            xbps-install -y git
+          fi
+
+      - name: Checkout repository
+        run: |
+          git clone --depth=1 https://github.com/${{ github.repository }}.git /workspace
+          cd /workspace
+          git checkout ${{ github.sha }}
 
       - name: Clone void-packages
         run: |
           git clone --depth=1 https://github.com/void-linux/void-packages.git "$VOID_PACKAGES_DIR"
 
-      - name: Install XBPS tools
-        run: |
-          # Download and install static XBPS binaries
-          wget https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz
-          sudo tar xvf xbps-static-latest.x86_64-musl.tar.xz -C /usr/local
-          sudo mv /usr/local/usr/bin/* /usr/local/bin/
-          rm -rf xbps-static-latest.x86_64-musl.tar.xz /usr/local/usr
-          # Verify installation
-          xbps-install --version
-
       - name: Bootstrap xbps-src
         run: |
-          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
           cd "$VOID_PACKAGES_DIR"
           ./xbps-src binary-bootstrap
 
       - name: Link custom templates
         run: |
-          echo "=== Linking custom packages ==="
-          echo "Source: $GITHUB_WORKSPACE/srcpkgs"
+          echo "=== Copying custom packages ==="
+          echo "Source: /workspace/srcpkgs"
           echo "Target: $VOID_PACKAGES_DIR/srcpkgs"
           
           # List what we have
           echo ""
           echo "Available packages:"
-          ls -la "$GITHUB_WORKSPACE/srcpkgs"
+          ls -la /workspace/srcpkgs
           
-          # Copy instead of symlink to avoid path issues
+          # Copy packages to void-packages
           echo ""
           echo "Copying packages to void-packages:"
-          for pkg in "$GITHUB_WORKSPACE"/srcpkgs/*; do
+          for pkg in /workspace/srcpkgs/*; do
             if [ -d "$pkg" ] && [ "$(basename "$pkg")" != ".gitkeep" ]; then
               name="$(basename "$pkg")"
               if [ -f "$pkg/template" ]; then
@@ -82,7 +79,7 @@ jobs:
         run: |
           set -euo pipefail
           cd "$VOID_PACKAGES_DIR"
-          mkdir -p "$GITHUB_WORKSPACE/binpkgs"
+          mkdir -p /workspace/binpkgs
 
           # Build order matters for ROCm packages (dependency order)
           BUILD_ORDER=(
@@ -117,11 +114,11 @@ jobs:
 
           echo ""
           echo "Copying built packages..."
-          find hostdir/binpkgs -type f -name "*.xbps" -exec cp -v {} "$GITHUB_WORKSPACE/binpkgs/" \;
+          find hostdir/binpkgs -type f -name "*.xbps" -exec cp -v {} /workspace/binpkgs/ \;
 
       - name: Create repository index
         run: |
-          cd "$GITHUB_WORKSPACE/binpkgs"
+          cd /workspace/binpkgs
           test -n "$(ls -1 *.xbps 2>/dev/null)" || { echo "No packages built"; exit 1; }
           xbps-rindex -a *.xbps
 
@@ -130,8 +127,8 @@ jobs:
         with:
           name: void-repo
           path: |
-            binpkgs/*.xbps
-            binpkgs/*-repodata
+            /workspace/binpkgs/*.xbps
+            /workspace/binpkgs/*-repodata
           retention-days: 30
 
   release:

@@ -12,7 +12,7 @@ This repository hosts custom package templates for Void Linux, including ROCm pa
 
 1. **Add this repository as a package source:**
    ```bash
-   ./scripts/setup-repo.sh https://github.com/YOURUSERNAME/voidrepo/releases/download/latest
+   ./scripts/setup-repo.sh https://github.com/markupstart/voidrepo/releases/download/latest
    ```
 
 2. **Install packages:**
@@ -24,7 +24,7 @@ This repository hosts custom package templates for Void Linux, including ROCm pa
 
 1. **Clone this repository:**
    ```bash
-   git clone https://github.com/YOURUSERNAME/voidrepo.git
+   git clone https://github.com/markupstart/voidrepo.git
    cd voidrepo
    ```
 

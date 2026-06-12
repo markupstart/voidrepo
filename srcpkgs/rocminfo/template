@@ -1,0 +1,19 @@
+# Template file for 'rocminfo'
+pkgname=rocminfo
+version=7.2.4
+revision=1
+build_style=cmake
+configure_args="
+ -G Ninja
+ -DCMAKE_BUILD_TYPE=Release
+ -DCMAKE_INSTALL_PREFIX=/usr
+"
+hostmakedepends="cmake ninja pkg-config"
+makedepends="rocr-runtime"
+depends="rocr-runtime"
+short_desc="ROCm system information tool"
+maintainer="mark <mark@local>"
+license="NCSA"
+homepage="https://github.com/ROCm/rocminfo"
+distfiles="https://github.com/ROCm/rocminfo/archive/refs/tags/rocm-${version}.tar.gz"
+checksum=4e7a456d23c44f7d0136715635190134ba3c572bdc595515d28182c674a62e33

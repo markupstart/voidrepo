@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Zen Browser
+Comment=A calmer, more privacy-focused web browser
+Exec=zen-browser %u
+Icon=zen-browser
+Terminal=false
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;application/atom+xml;

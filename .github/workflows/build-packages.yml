@@ -42,6 +42,7 @@ jobs:
 
       - name: Bootstrap xbps-src
         run: |
+          sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
           cd "$VOID_PACKAGES_DIR"
           ./xbps-src binary-bootstrap
 

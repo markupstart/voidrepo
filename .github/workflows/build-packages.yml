@@ -1,3 +1,15 @@
+name: Build Void Packages
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'srcpkgs/**'
+      - '.github/workflows/build-packages.yml'
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -63,3 +75,58 @@ jobs:
           path: |
             binpkgs/*.xbps
             binpkgs/*-repodata
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: void-repo
+          path: binpkgs
+
+      - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Install GitHub CLI if not available
+          if ! command -v gh &> /dev/null; then
+            curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+            echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+            sudo apt update
+            sudo apt install -y gh
+          fi
+
+          # Create release with date tag
+          TAG="v$(date +%Y.%m.%d-%H%M)"
+
+          # Check if there are packages to release
+          if ls binpkgs/*.xbps 1> /dev/null 2>&1; then
+            gh release create "$TAG" \
+              --title "Release $(date +%Y-%m-%d)" \
+              --notes "Automated build of custom Void Linux packages" \
+              binpkgs/*.xbps binpkgs/*-repodata
+
+            # Also update 'latest' tag
+            gh release delete latest --yes || true
+            git tag -f latest
+            git push -f origin latest
+            gh release create latest \
+              --title "Latest Build" \
+              --notes "Latest build of custom Void Linux packages. Always points to the most recent build." \
+              --latest \
+              binpkgs/*.xbps binpkgs/*-repodata
+          else
+            echo "No packages to release"
+          fi
+
+          fi

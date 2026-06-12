@@ -37,3 +37,7 @@ EOF
 /usr/lib
 EOF
 }
+
+rocm-opencl_package() {
+ vmove usr
+}

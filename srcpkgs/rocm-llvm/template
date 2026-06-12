@@ -24,6 +24,10 @@ distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-${version
 checksum=526b5fe23417c41acbeb2273e470887b4593f48a297a8d9c1a1aa730d556f9fb
 python_version=3
 
+rocm-llvm_package() {
+ vmove usr
+}
+
 # Notes:
 # 1) This is a starter stub and may require additional split packages (-devel, -libs).
 # 2) If build fails, patching may be needed for current Void toolchain versions.

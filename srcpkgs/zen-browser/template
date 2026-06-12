@@ -40,3 +40,7 @@ do_install() {
 		fi
 	done
 }
+zen-browser_package() {
+ vmove usr
+ vmove opt
+}

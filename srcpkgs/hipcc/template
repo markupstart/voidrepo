@@ -53,3 +53,7 @@ bindir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 exec "${bindir}/hipconfig.bin" "$@"
 EOF
 }
+
+hipcc_package() {
+ vmove usr
+}

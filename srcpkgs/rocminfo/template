@@ -17,3 +17,7 @@ license="NCSA"
 homepage="https://github.com/ROCm/rocminfo"
 distfiles="https://github.com/ROCm/rocminfo/archive/refs/tags/rocm-${version}.tar.gz"
 checksum=4e7a456d23c44f7d0136715635190134ba3c572bdc595515d28182c674a62e33
+
+rocminfo_package() {
+ vmove usr
+}

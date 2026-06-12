@@ -34,6 +34,12 @@ This repository hosts custom package templates for Void Linux, including ROCm pa
    ```
    repository=https://github.com/markupstart/voidrepo/releases/download/latest
    ```
+   
+   Then sync the repository index:
+   
+   ```bash
+   sudo xbps-install -S
+   ```
 
 2. **Install packages:**
 

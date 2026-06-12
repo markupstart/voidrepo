@@ -30,6 +30,16 @@ jobs:
         run: |
           git clone --depth=1 https://github.com/void-linux/void-packages.git "$VOID_PACKAGES_DIR"
 
+      - name: Install XBPS tools
+        run: |
+          # Download and install static XBPS binaries (glibc)
+          wget https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64.tar.xz
+          sudo tar xvf xbps-static-latest.x86_64.tar.xz -C /usr/local
+          sudo mv /usr/local/usr/bin/* /usr/local/bin/
+          rm -rf xbps-static-latest.x86_64.tar.xz /usr/local/usr
+          # Verify installation
+          xbps-install --version
+
       - name: Bootstrap xbps-src
         run: |
           cd "$VOID_PACKAGES_DIR"
@@ -129,6 +139,4 @@ jobs:
               binpkgs/*.xbps binpkgs/*-repodata
           else
             echo "No packages to release"
-          fi
-
           fi

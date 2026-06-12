@@ -22,12 +22,14 @@ jobs:
       HOME: /root
 
     steps:
-      - name: Install git (if needed)
+      - name: Prepare build environment
         run: |
-          if ! command -v git &> /dev/null; then
-            xbps-install -Syu xbps
-            xbps-install -y git
-          fi
+          # Update package index and install dependencies
+          xbps-install -Syu || true
+          xbps-install -y git base-devel
+          
+          # Create workspace directory
+          mkdir -p /workspace
 
       - name: Checkout repository
         run: |

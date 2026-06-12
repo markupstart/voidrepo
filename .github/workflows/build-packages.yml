@@ -14,7 +14,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container:
-      image: ghcr.io/void-linux/void-buildroot-musl:latest
+      image: ghcr.io/void-linux/void-buildroot:latest
       options: --privileged
     
     steps:

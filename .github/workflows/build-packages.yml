@@ -16,6 +16,7 @@ jobs:
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       VOID_PACKAGES_DIR: ${{ github.workspace }}/void-packages
+      XBPS_DISTDIR: ${{ github.workspace }}/void-packages
 
     steps:
       - name: Checkout repository

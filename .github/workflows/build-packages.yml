@@ -13,93 +13,47 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: ghcr.io/void-linux/void-glibc-full:latest
-      options: --privileged
-    defaults:
-      run:
-        shell: bash
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-      VOID_PACKAGES_DIR: /void-packages
-      HOME: /root
+      VOID_PACKAGES_DIR: ${{ github.workspace }}/void-packages
+      XBPS_ARCH: x86_64
 
     steps:
-      - name: Prepare build environment
-        run: |
-          # Update package index and install dependencies
-          xbps-install -Syu || true
-          xbps-install -y git base-devel bash
-          
-          # Create workspace directory
-          mkdir -p /workspace
-
       - name: Checkout repository
-        run: |
-          git clone --depth=1 https://github.com/${{ github.repository }}.git /workspace
-          cd /workspace
-          git checkout ${{ github.sha }}
+        uses: actions/checkout@v4
 
       - name: Clone void-packages
         run: |
           git clone --depth=1 https://github.com/void-linux/void-packages.git "$VOID_PACKAGES_DIR"
-          
-          # Verify clone succeeded
-          echo "=== Verifying void-packages clone ==="
-          ls -la "$VOID_PACKAGES_DIR" | head -20
-          echo ""
-          echo "Checking for xbps-src..."
-          if [ -f "$VOID_PACKAGES_DIR/xbps-src" ]; then
-            echo "✓ xbps-src found"
-            ls -l "$VOID_PACKAGES_DIR/xbps-src"
-          else
-            echo "❌ xbps-src NOT found"
-            exit 1
-          fi
 
-      - name: Bootstrap xbps-src
+      - name: Bootstrap xbps-src (glibc)
         run: |
-          cd "$VOID_PACKAGES_DIR" || { echo "Failed to cd to $VOID_PACKAGES_DIR"; exit 1; }
-          echo "Current directory: $(pwd)"
-          echo "Running xbps-src binary-bootstrap..."
-          ./xbps-src binary-bootstrap
+          cd "$VOID_PACKAGES_DIR"
+          # Explicitly bootstrap for x86_64 glibc (not musl)
+          ./xbps-src binary-bootstrap x86_64
 
       - name: Link custom templates
         run: |
           echo "=== Copying custom packages ==="
-          echo "Source: /workspace/srcpkgs"
+          echo "Source: ${{ github.workspace }}/srcpkgs"
           echo "Target: $VOID_PACKAGES_DIR/srcpkgs"
           
-          # List what we have
-          echo ""
-          echo "Available packages:"
-          ls -la /workspace/srcpkgs
-          
           # Copy packages to void-packages
-          echo ""
-          echo "Copying packages to void-packages:"
-          for pkg in /workspace/srcpkgs/*; do
+          for pkg in ${{ github.workspace }}/srcpkgs/*; do
             if [ -d "$pkg" ] && [ "$(basename "$pkg")" != ".gitkeep" ]; then
               name="$(basename "$pkg")"
               if [ -f "$pkg/template" ]; then
-                echo "  Copying $name..."
+                echo "Copying $name..."
                 cp -r "$pkg" "$VOID_PACKAGES_DIR/srcpkgs/$name"
-                echo "  ✓ Copied $name"
-              else
-                echo "  ⚠ No template in $name"
               fi
             fi
           done
-          
-          echo ""
-          echo "Packages in void-packages/srcpkgs:"
-          ls -d "$VOID_PACKAGES_DIR"/srcpkgs/*/ 2>/dev/null | tail -10 || echo "None found"
 
       - name: Build packages
         run: |
           set -euo pipefail
           cd "$VOID_PACKAGES_DIR"
-          mkdir -p /workspace/binpkgs
+          mkdir -p ${{ github.workspace }}/binpkgs
 
           # Build order matters for ROCm packages (dependency order)
           BUILD_ORDER=(
@@ -120,9 +74,10 @@ jobs:
             if [ -d "$VOID_PACKAGES_DIR/srcpkgs/$name" ]; then
               echo ""
               echo "========================================"
-              echo "Building: $name"
+              echo "Building: $name (glibc)"
               echo "========================================"
-              ./xbps-src pkg "$name" || {
+              # Explicitly build for x86_64 glibc
+              ./xbps-src -a x86_64 pkg "$name" || {
                 echo "⚠ Failed to build $name"
                 echo "⚠ This may cause dependent packages to fail"
                 continue
@@ -134,21 +89,21 @@ jobs:
 
           echo ""
           echo "Copying built packages..."
-          find hostdir/binpkgs -type f -name "*.xbps" -exec cp -v {} /workspace/binpkgs/ \;
+          find hostdir/binpkgs -type f -name "*.xbps" -exec cp -v {} ${{ github.workspace }}/binpkgs/ \;
 
       - name: Create repository index
         run: |
-          cd /workspace/binpkgs
+          cd ${{ github.workspace }}/binpkgs
           test -n "$(ls -1 *.xbps 2>/dev/null)" || { echo "No packages built"; exit 1; }
-          xbps-rindex -a *.xbps
+          "$VOID_PACKAGES_DIR/hostdir/binpkgs/xbps-rindex" -a *.xbps
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: void-repo
           path: |
-            /workspace/binpkgs/*.xbps
-            /workspace/binpkgs/*-repodata
+            binpkgs/*.xbps
+            binpkgs/*-repodata
           retention-days: 30
 
   release:

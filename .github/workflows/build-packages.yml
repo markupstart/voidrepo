@@ -50,13 +50,24 @@ jobs:
       - name: Link custom templates
         run: |
           mkdir -p "$VOID_PACKAGES_DIR/srcpkgs"
+          echo "Looking for packages in: $GITHUB_WORKSPACE/srcpkgs"
+          ls -la "$GITHUB_WORKSPACE/srcpkgs" || true
+          
           for pkg in "$GITHUB_WORKSPACE"/srcpkgs/*; do
-            if [ -d "$pkg" ] && [ -f "$pkg/template" ]; then
+            echo "Checking: $pkg"
+            if [ -d "$pkg" ] && [ "$(basename "$pkg")" != ".gitkeep" ]; then
               name="$(basename "$pkg")"
-              ln -sfn "$pkg" "$VOID_PACKAGES_DIR/srcpkgs/$name"
-              echo "Linked $name"
+              if [ -f "$pkg/template" ]; then
+                ln -sfn "$pkg" "$VOID_PACKAGES_DIR/srcpkgs/$name"
+                echo "✓ Linked $name"
+              else
+                echo "⚠ No template file in $name"
+              fi
             fi
           done
+          
+          echo "Linked packages:"
+          ls -la "$VOID_PACKAGES_DIR/srcpkgs" | grep "^l" || echo "No symlinks found"
 
       - name: Build packages
         run: |
@@ -65,13 +76,21 @@ jobs:
           mkdir -p "$GITHUB_WORKSPACE/binpkgs"
 
           for pkg in "$GITHUB_WORKSPACE"/srcpkgs/*; do
-            if [ -d "$pkg" ] && [ -f "$pkg/template" ]; then
+            if [ -d "$pkg" ] && [ "$(basename "$pkg")" != ".gitkeep" ] && [ -f "$pkg/template" ]; then
               name="$(basename "$pkg")"
-              echo "Building $name"
-              ./xbps-src pkg "$name"
+              echo ""
+              echo "========================================"
+              echo "Building: $name"
+              echo "========================================"
+              ./xbps-src pkg "$name" || {
+                echo "⚠ Failed to build $name"
+                continue
+              }
             fi
           done
 
+          echo ""
+          echo "Copying built packages..."
           find hostdir/binpkgs -type f -name "*.xbps" -exec cp -v {} "$GITHUB_WORKSPACE/binpkgs/" \;
 
       - name: Create repository index

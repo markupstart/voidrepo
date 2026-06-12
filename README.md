@@ -2,6 +2,19 @@
 
 A personal repository for custom Void Linux package templates with automated builds via GitHub Actions.
 
+Packages include are: 
+
+- hip-runtime-amd
+- hipcc
+- rocm-cmake
+- rocm-comgr
+- rocm-device-libs
+- rocm-opencl
+- rocminfo
+- rocr-runtime
+- vscode-bin
+- zen-browser
+
 ## 📦 What's This?
 
 This repository hosts custom package templates for Void Linux, including ROCm packages and other custom builds. Packages are automatically built via GitHub Actions and published as releases, making it easy to install on multiple machines.

@@ -26,7 +26,7 @@ jobs:
         run: |
           # Install dependencies
           sudo apt-get update
-          sudo apt-get install -y wget ca-certificates
+          sudo apt-get install -y wget ca-certificates proot
           
           # Download and install static XBPS binaries
           wget https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz
@@ -35,6 +35,8 @@ jobs:
           # Verify installation
           which xbps-install
           xbps-install --version
+          which proot
+          proot --version
 
       - name: Clone void-packages
         run: |
@@ -43,8 +45,8 @@ jobs:
       - name: Configure xbps-src
         run: |
           cd "$VOID_PACKAGES_DIR"
-          # Configure to use ethereal chroot (doesn't require user namespaces)
-          echo "XBPS_CHROOT_CMD=ethereal" >> etc/conf
+          # Configure to use proot (works in GitHub Actions without user namespaces)
+          echo "XBPS_CHROOT_CMD=proot" >> etc/conf
           
       - name: Bootstrap xbps-src (glibc)
         run: |

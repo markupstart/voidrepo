@@ -40,10 +40,25 @@ jobs:
       - name: Clone void-packages
         run: |
           git clone --depth=1 https://github.com/void-linux/void-packages.git "$VOID_PACKAGES_DIR"
+          
+          # Verify clone succeeded
+          echo "=== Verifying void-packages clone ==="
+          ls -la "$VOID_PACKAGES_DIR" | head -20
+          echo ""
+          echo "Checking for xbps-src..."
+          if [ -f "$VOID_PACKAGES_DIR/xbps-src" ]; then
+            echo "✓ xbps-src found"
+            ls -l "$VOID_PACKAGES_DIR/xbps-src"
+          else
+            echo "❌ xbps-src NOT found"
+            exit 1
+          fi
 
       - name: Bootstrap xbps-src
         run: |
-          cd "$VOID_PACKAGES_DIR"
+          cd "$VOID_PACKAGES_DIR" || { echo "Failed to cd to $VOID_PACKAGES_DIR"; exit 1; }
+          echo "Current directory: $(pwd)"
+          echo "Running xbps-src binary-bootstrap..."
           ./xbps-src binary-bootstrap
 
       - name: Link custom templates

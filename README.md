@@ -2,7 +2,7 @@
 
 A personal repository for custom Void Linux package templates with automated builds via GitHub Actions.
 
-Packages include are: 
+Packages included are: 
 
 - hip-runtime-amd
 - hipcc

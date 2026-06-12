@@ -45,6 +45,10 @@ post_extract() {
  fi
 }
 
+hip-runtime-amd_package() {
+ vmove usr
+}
+
 # Notes:
 # 1) For production packaging, you will likely split this into runtime and devel subpackages.
 # 2) rocm-device-libs is included here because it is commonly required by HIP stacks.

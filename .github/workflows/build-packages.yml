@@ -32,11 +32,11 @@ jobs:
 
       - name: Install XBPS tools
         run: |
-          # Download and install static XBPS binaries (glibc)
-          wget https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64.tar.xz
-          sudo tar xvf xbps-static-latest.x86_64.tar.xz -C /usr/local
+          # Download and install static XBPS binaries
+          wget https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz
+          sudo tar xvf xbps-static-latest.x86_64-musl.tar.xz -C /usr/local
           sudo mv /usr/local/usr/bin/* /usr/local/bin/
-          rm -rf xbps-static-latest.x86_64.tar.xz /usr/local/usr
+          rm -rf xbps-static-latest.x86_64-musl.tar.xz /usr/local/usr
           # Verify installation
           xbps-install --version
 

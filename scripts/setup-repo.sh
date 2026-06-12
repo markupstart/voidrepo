@@ -3,7 +3,7 @@
 
 set -e
 
-REPO_URL="${1:-https://github.com/YOURUSERNAME/voidrepo/releases/latest/download}"
+REPO_URL="${1:-https://github.com/markupstart/voidrepo/releases/latest/download}"
 
 if [ -z "$1" ]; then
     echo "Usage: $0 <repository-url>"

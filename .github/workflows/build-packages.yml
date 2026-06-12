@@ -49,25 +49,34 @@ jobs:
 
       - name: Link custom templates
         run: |
-          mkdir -p "$VOID_PACKAGES_DIR/srcpkgs"
-          echo "Looking for packages in: $GITHUB_WORKSPACE/srcpkgs"
-          ls -la "$GITHUB_WORKSPACE/srcpkgs" || true
+          echo "=== Linking custom packages ==="
+          echo "Source: $GITHUB_WORKSPACE/srcpkgs"
+          echo "Target: $VOID_PACKAGES_DIR/srcpkgs"
           
+          # List what we have
+          echo ""
+          echo "Available packages:"
+          ls -la "$GITHUB_WORKSPACE/srcpkgs"
+          
+          # Copy instead of symlink to avoid path issues
+          echo ""
+          echo "Copying packages to void-packages:"
           for pkg in "$GITHUB_WORKSPACE"/srcpkgs/*; do
-            echo "Checking: $pkg"
             if [ -d "$pkg" ] && [ "$(basename "$pkg")" != ".gitkeep" ]; then
               name="$(basename "$pkg")"
               if [ -f "$pkg/template" ]; then
-                ln -sfn "$pkg" "$VOID_PACKAGES_DIR/srcpkgs/$name"
-                echo "✓ Linked $name"
+                echo "  Copying $name..."
+                cp -r "$pkg" "$VOID_PACKAGES_DIR/srcpkgs/$name"
+                echo "  ✓ Copied $name"
               else
-                echo "⚠ No template file in $name"
+                echo "  ⚠ No template in $name"
               fi
             fi
           done
           
-          echo "Linked packages:"
-          ls -la "$VOID_PACKAGES_DIR/srcpkgs" | grep "^l" || echo "No symlinks found"
+          echo ""
+          echo "Packages in void-packages/srcpkgs:"
+          ls -d "$VOID_PACKAGES_DIR"/srcpkgs/*/ 2>/dev/null | tail -10 || echo "None found"
 
       - name: Build packages
         run: |

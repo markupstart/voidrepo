@@ -16,6 +16,9 @@ jobs:
     container:
       image: ghcr.io/void-linux/void-glibc-full:latest
       options: --privileged
+    defaults:
+      run:
+        shell: bash
     env:
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
       VOID_PACKAGES_DIR: /void-packages
@@ -26,7 +29,7 @@ jobs:
         run: |
           # Update package index and install dependencies
           xbps-install -Syu || true
-          xbps-install -y git base-devel
+          xbps-install -y git base-devel bash
           
           # Create workspace directory
           mkdir -p /workspace

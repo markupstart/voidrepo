@@ -38,6 +38,4 @@ EOF
 EOF
 }
 
-rocm-opencl_package() {
- vmove usr
-}
+

@@ -25,8 +25,4 @@ pre_build() {
  export HIP_DEVICE_LIB_PATH=/usr/amdgcn/bitcode
 }
 
-rocr-runtime_package() {
- vmove usr
-}
-
 # Note: ROCm Linux package docs commonly refer to this runtime component as hsa-rocr.

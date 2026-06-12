@@ -45,9 +45,7 @@ post_extract() {
  fi
 }
 
-hip-runtime-amd_package() {
- vmove usr
-}
+
 
 # Notes:
 # 1) For production packaging, you will likely split this into runtime and devel subpackages.

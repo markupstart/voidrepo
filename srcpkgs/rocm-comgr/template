@@ -21,8 +21,4 @@ homepage="https://github.com/ROCm/llvm-project/tree/amd-staging/amd/comgr"
 distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-${version}.tar.gz"
 checksum=526b5fe23417c41acbeb2273e470887b4593f48a297a8d9c1a1aa730d556f9fb
 
-rocm-comgr_package() {
- vmove usr
-}
-
 # Note: For ROCm 7.x, amd_comgr sources are carried in llvm-project under amd/comgr.

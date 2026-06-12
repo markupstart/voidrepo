@@ -54,6 +54,3 @@ exec "${bindir}/hipconfig.bin" "$@"
 EOF
 }
 
-hipcc_package() {
- vmove usr
-}

@@ -172,14 +172,6 @@ For large packages like `rocm-llvm`:
 
 The repository index (`*-repodata`) is automatically created and included in releases. This allows `xbps-install` to query available packages.
 
-### Architecture
-
-Packages are built for the architecture of the build machine. The GitHub Actions workflow uses `void-buildroot-musl` which builds for `x86_64-musl`.
-
-To build for different architectures, modify the workflow to use:
-- `void-buildroot-glibc` for glibc-based systems
-- Cross-compilation tools for other architectures
-
 ## 🛠️ Troubleshooting
 
 ### Build fails in GitHub Actions

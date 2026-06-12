@@ -22,6 +22,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install XBPS tools
+        run: |
+          # Install dependencies
+          sudo apt-get update
+          sudo apt-get install -y wget ca-certificates
+          
+          # Download and install static XBPS binaries
+          XBPS_VERSION="0.59.2"
+          wget https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz
+          sudo tar xvf xbps-static-latest.x86_64-musl.tar.xz -C /usr/local
+          sudo ldconfig
+
       - name: Clone void-packages
         run: |
           git clone --depth=1 https://github.com/void-linux/void-packages.git "$VOID_PACKAGES_DIR"

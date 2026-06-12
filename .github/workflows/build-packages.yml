@@ -44,7 +44,7 @@ jobs:
         run: |
           cd "$VOID_PACKAGES_DIR"
           # Explicitly bootstrap for x86_64 glibc (not musl)
-          ./xbps-src binary-bootstrap x86_64
+          ./xbps-src -A x86_64 binary-bootstrap
 
       - name: Link custom templates
         run: |
@@ -91,7 +91,7 @@ jobs:
               echo "Building: $name (glibc)"
               echo "========================================"
               # Explicitly build for x86_64 glibc
-              ./xbps-src -a x86_64 pkg "$name" || {
+              ./xbps-src -A x86_64 pkg "$name" || {
                 echo "⚠ Failed to build $name"
                 echo "⚠ This may cause dependent packages to fail"
                 continue

@@ -40,6 +40,12 @@ jobs:
         run: |
           git clone --depth=1 https://github.com/void-linux/void-packages.git "$VOID_PACKAGES_DIR"
 
+      - name: Configure xbps-src
+        run: |
+          cd "$VOID_PACKAGES_DIR"
+          # Configure to use ethereal chroot (doesn't require user namespaces)
+          echo "XBPS_CHROOT_CMD=ethereal" >> etc/conf
+          
       - name: Bootstrap xbps-src (glibc)
         run: |
           cd "$VOID_PACKAGES_DIR"

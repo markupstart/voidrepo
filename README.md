@@ -25,30 +25,18 @@ This repository hosts custom package templates for Void Linux, including ROCm pa
 
 1. **Add this repository as a package source:**
    ```bash
-   ./scripts/setup-repo.sh https://github.com/markupstart/voidrepo/releases/download/latest
-   ```
+  sudo nano /etc/xbps.d/voidrepo.conf 
+  ```
+   * Add this line to the file and save
+
+  ```
+  https://github.com/markupstart/voidrepo/releases/download/latest
+  
+  ```
 
 2. **Install packages:**
    ```bash
    sudo xbps-install -S your-package-name
-   ```
-
-### For Development
-
-1. **Clone this repository:**
-   ```bash
-   git clone https://github.com/markupstart/voidrepo.git
-   cd voidrepo
-   ```
-
-2. **Bootstrap the build environment:**
-   ```bash
-   ./scripts/bootstrap.sh
-   ```
-
-3. **Build all packages:**
-   ```bash
-   ./scripts/build-all.sh
    ```
 
 ## 📁 Repository Structure
@@ -69,36 +57,6 @@ voidrepo/
 └── void-packages/        # Cloned during bootstrap (not committed)
 ```
 
-## 🔧 Adding a New Package
-
-1. **Create package template in `srcpkgs/`:**
-   ```bash
-   mkdir srcpkgs/mypackage
-   ```
-
-2. **Create the template file** `srcpkgs/mypackage/template`:
-   ```bash
-   # Template file
-   pkgname=mypackage
-   version=1.0.0
-   revision=1
-   build_style=gnu-configure
-   short_desc="Description of my package"
-   maintainer="Your Name <your@email.com>"
-   license="GPL-3.0-or-later"
-   homepage="https://example.com"
-   distfiles="https://example.com/mypackage-${version}.tar.gz"
-   checksum=abc123...
-   ```
-
-3. **Commit and push:**
-   ```bash
-   git add srcpkgs/mypackage
-   git commit -m "Add mypackage"
-   git push
-   ```
-
-4. **GitHub Actions will automatically build** and create a release!
 
 ## 🏗️ Manual Building
 

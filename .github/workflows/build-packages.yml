@@ -75,6 +75,8 @@ jobs:
           path: |
             binpkgs/*.xbps
             binpkgs/*-repodata
+          retention-days: 30
+
   release:
     needs: build
     runs-on: ubuntu-latest

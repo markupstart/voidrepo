@@ -119,11 +119,35 @@ jobs:
           echo "Copying built packages..."
           find hostdir/binpkgs -type f -name "*.xbps" -exec cp -v {} "$GITHUB_WORKSPACE/binpkgs/" \;
 
+      - name: Sign packages
+        env:
+          SIGNING_KEY: ${{ secrets.XBPS_SIGNING_KEY }}
+        run: |
+          cd "$VOID_PACKAGES_DIR"
+          
+          # Save private key to temporary file
+          echo "$SIGNING_KEY" > /tmp/signing-key.pem
+          chmod 600 /tmp/signing-key.pem
+          
+          # Sign repository metadata (initializes repository signature)
+          xbps-rindex --privkey /tmp/signing-key.pem \
+            --sign \
+            --signedby "markupstart voidrepo" \
+            "$GITHUB_WORKSPACE/binpkgs"
+          
+          # Sign all built packages
+          xbps-rindex --privkey /tmp/signing-key.pem \
+            --sign-pkg "$GITHUB_WORKSPACE/binpkgs"/*.xbps
+          
+          # Clean up private key
+          shred -u /tmp/signing-key.pem
+
       - name: Create repository index
         run: |
           cd "$GITHUB_WORKSPACE/binpkgs"
           test -n "$(ls -1 *.xbps 2>/dev/null)" || { echo "No packages built"; exit 1; }
-          xbps-rindex -a *.xbps
+          # Index is already created by xbps-rindex --sign, just verify
+          ls -lh *-repodata
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

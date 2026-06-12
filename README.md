@@ -41,7 +41,15 @@ This repository hosts custom package templates for Void Linux, including ROCm pa
    sudo xbps-install -S
    ```
 
-2. **Install packages:**
+2. **Trust the repository signing key:**
+
+   ```bash
+   sudo mkdir -p /var/db/xbps/keys
+   sudo wget -O /var/db/xbps/keys/voidrepo.plist \
+     https://raw.githubusercontent.com/markupstart/voidrepo/main/keys/voidrepo-signing.pub
+   ```
+
+3. **Install packages:**
 
    ```bash
    sudo xbps-install -S your-package-name

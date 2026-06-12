@@ -19,9 +19,10 @@ jobs:
     
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 1
+        run: |
+          git clone --depth=1 https://github.com/${{ github.repository }}.git /github/workspace
+          cd /github/workspace
+          git checkout ${{ github.sha }}
       
       - name: Clone void-packages
         run: |
@@ -34,7 +35,7 @@ jobs:
       
       - name: Link custom packages
         run: |
-          for pkg in $GITHUB_WORKSPACE/srcpkgs/*; do
+          for pkg in /github/workspace/srcpkgs/*; do
             if [ -d "$pkg" ] && [ "$(basename "$pkg")" != ".gitkeep" ]; then
               pkg_name=$(basename "$pkg")
               ln -sf "$pkg" "/void-packages/srcpkgs/$pkg_name"
@@ -45,9 +46,9 @@ jobs:
       - name: Build packages
         run: |
           cd /void-packages
-          mkdir -p $GITHUB_WORKSPACE/binpkgs
+          mkdir -p /github/workspace/binpkgs
           
-          for pkg in $GITHUB_WORKSPACE/srcpkgs/*; do
+          for pkg in /github/workspace/srcpkgs/*; do
             if [ -d "$pkg" ] && [ "$(basename "$pkg")" != ".gitkeep" ]; then
               pkg_name=$(basename "$pkg")
               echo "Building: $pkg_name"
@@ -57,14 +58,14 @@ jobs:
               ARCH=$(xbps-uhelper arch)
               pkg_file=$(find hostdir/binpkgs -name "${pkg_name}-*.${ARCH}.xbps" -type f | sort -V | tail -1)
               if [ -n "$pkg_file" ]; then
-                cp -v "$pkg_file" $GITHUB_WORKSPACE/binpkgs/
+                cp -v "$pkg_file" /github/workspace/binpkgs/
               fi
             fi
           done
       
       - name: Create repository index
         run: |
-          cd $GITHUB_WORKSPACE/binpkgs
+          cd /github/workspace/binpkgs
           if ls *.xbps 1> /dev/null 2>&1; then
             xbps-rindex -a *.xbps
           fi

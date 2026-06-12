@@ -1,0 +1,25 @@
+# xbps-src build directories
+hostdir/
+masterdir*/
+*.tar.xz
+*.rpm
+*.deb
+
+# Build artifacts
+*.o
+*.so
+*.a
+*.log
+
+# Temporary files
+*~
+*.swp
+*.swo
+.DS_Store
+
+# Local binpkgs (these will be hosted on GitHub Releases)
+binpkgs/*.xbps
+!binpkgs/.gitkeep
+
+# Personal configurations
+local.conf

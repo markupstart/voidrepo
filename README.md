@@ -55,16 +55,3 @@ This repository hosts custom package templates for Void Linux, including ROCm pa
    sudo xbps-install -S your-package-name
    ```
    
-
-## 📁 Repository Structure
-
-```
-voidrepo/
-│   ├── rocm/
-│   ├── rocm-llvm/
-│   └── ...
-├── binpkgs/              
-├── .github/workflows/
-│   └── build-packages.yml 
-└── void-packages/
-```

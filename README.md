@@ -1,6 +1,7 @@
-# Void Linux Custom Packages Repository
 
-A personal repository for custom Void Linux package templates with automated builds via GitHub Actions.
+# My custom Void Linux Packages Repository
+
+my personal repository for custom Void Linux package templates with automated builds via GitHub Actions.
 
 Packages included are: 
 
@@ -15,10 +16,6 @@ Packages included are:
 - rocr-runtime
 - vscode-bin
 - zen-browser
-
-## 📦 What's This?
-
-This repository hosts custom package templates for Void Linux, including ROCm packages and other custom builds. Packages are automatically built via GitHub Actions and published as releases, making it easy to install on multiple machines.
 
 ## 🚀 Quick Start
 

@@ -65,10 +65,6 @@ voidrepo/
 │   ├── rocm-llvm/
 │   └── ...
 ├── binpkgs/              # Built packages (generated, not committed)
-├── scripts/
-│   ├── bootstrap.sh      # Set up build environment
-│   ├── build-all.sh      # Build all custom packages
-│   └── setup-repo.sh     # Configure machine to use this repo
 ├── .github/workflows/
 │   └── build-packages.yml # Automated builds
 └── void-packages/        # Cloned during bootstrap (not committed)

@@ -60,12 +60,11 @@ This repository hosts custom package templates for Void Linux, including ROCm pa
 
 ```
 voidrepo/
-├── srcpkgs/              # Custom package templates (your packages go here)
 │   ├── rocm/
 │   ├── rocm-llvm/
 │   └── ...
-├── binpkgs/              # Built packages (generated, not committed)
+├── binpkgs/              
 ├── .github/workflows/
-│   └── build-packages.yml # Automated builds
-└── void-packages/        # Cloned during bootstrap (not committed)
+│   └── build-packages.yml 
+└── void-packages/
 ```

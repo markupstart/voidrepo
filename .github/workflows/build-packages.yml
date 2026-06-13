@@ -166,6 +166,7 @@ jobs:
           name: void-repo
           path: |
             binpkgs/*.xbps
+            binpkgs/*.xbps.sig2
             binpkgs/*-repodata
           retention-days: 30
 
@@ -208,7 +209,7 @@ jobs:
             gh release create "$TAG" \
               --title "Release $(date +%Y-%m-%d)" \
               --notes "Automated build of custom Void Linux packages" \
-              binpkgs/*.xbps binpkgs/*-repodata
+              binpkgs/*.xbps binpkgs/*.xbps.sig2 binpkgs/*-repodata
 
             # Also update 'latest' tag
             gh release delete latest --yes || true
@@ -218,7 +219,7 @@ jobs:
               --title "Latest Build" \
               --notes "Latest build of custom Void Linux packages. Always points to the most recent build." \
               --latest \
-              binpkgs/*.xbps binpkgs/*-repodata
+              binpkgs/*.xbps binpkgs/*.xbps.sig2 binpkgs/*-repodata
           else
             echo "No packages to release"
           fi

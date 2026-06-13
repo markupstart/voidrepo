@@ -11,6 +11,7 @@ configure_args="
 hostmakedepends="cmake ninja pkg-config"
 makedepends="rocr-runtime"
 depends="rocr-runtime"
+skiprdeps=yes
 short_desc="ROCm system information tool"
 maintainer="mark <mark@local>"
 license="NCSA"

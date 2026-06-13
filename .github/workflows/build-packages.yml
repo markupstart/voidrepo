@@ -74,6 +74,14 @@ jobs:
             fi
           done
           
+          # Add custom shlibs mappings
+          echo ""
+          echo "Adding custom shlibs mappings..."
+          if [ -f "$GITHUB_WORKSPACE/common/shlibs" ]; then
+            cat "$GITHUB_WORKSPACE/common/shlibs" >> "$VOID_PACKAGES_DIR/common/shlibs"
+            echo "✓ Added ROCm shlibs mappings"
+          fi
+          
           echo ""
           echo "Packages in void-packages/srcpkgs:"
           ls -d "$VOID_PACKAGES_DIR"/srcpkgs/*/ 2>/dev/null | tail -10 || echo "None found"

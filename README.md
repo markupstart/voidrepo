@@ -1,7 +1,7 @@
 
 # My custom Void Linux Packages Repository
 
-my personal repository for custom Void Linux package templates with automated builds via GitHub Actions.
+my personal repository for custom Void Linux packages with automated builds via GitHub Actions.
 
 Packages included are: 
 

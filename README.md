@@ -6,6 +6,7 @@ Packages included are:
 
 - hip-runtime-amd
 - hipcc
+- rocm-llvm
 - rocm-cmake
 - rocm-comgr
 - rocm-device-libs

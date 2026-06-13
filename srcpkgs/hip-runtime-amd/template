@@ -20,7 +20,6 @@ configure_args="
 hostmakedepends="cmake ninja pkg-config python3 perl rocm-cmake rocm-llvm rocm-comgr"
 makedepends="rocr-runtime rocm-llvm rocm-device-libs rocm-comgr libglvnd-devel"
 depends="rocr-runtime rocm-llvm rocm-device-libs rocm-comgr"
-skiprdeps=yes
 short_desc="HIP runtime for AMD GPUs"
 maintainer="mark <mark@local>"
 license="MIT"

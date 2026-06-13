@@ -1,7 +1,7 @@
 # Template file for 'zen-browser'
 pkgname=zen-browser
 version=1.21b
-revision=1
+revision=2
 archs="x86_64 aarch64"
 short_desc="Calmer, more privacy-focused Firefox-based browser"
 maintainer="Mark <mark@example.com>"
@@ -25,7 +25,7 @@ do_install() {
 	# Create wrapper script for /usr/bin
 	cat > zen-browser-wrapper <<-EOF
 	#!/bin/sh
-	exec /opt/zen-browser/zen "\$@"
+	exec /opt/zen-browser/zen/zen "\$@"
 	EOF
 	vbin zen-browser-wrapper zen-browser
 

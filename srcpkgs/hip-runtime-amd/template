@@ -1,10 +1,10 @@
 # Template file for 'hip-runtime-amd'
 pkgname=hip-runtime-amd
 version=7.2.4
-revision=1
+revision=2
 build_style=cmake
 build_wrksrc=clr-rocm-${version}
-_amdgpu_targets="${AMDGPU_TARGETS:-gfx1100;gfx1101;gfx1102;gfx1200;gfx1201}"
+_amdgpu_targets="${AMDGPU_TARGETS:-gfx1100;gfx1101;gfx1102;gfx1103;gfx1200;gfx1201}"
 configure_args="
  -G Ninja
  -DCMAKE_BUILD_TYPE=Release

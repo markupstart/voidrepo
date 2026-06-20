@@ -1,7 +1,7 @@
 # Template file for 'zen-browser'
 pkgname=zen-browser
-version=1.21.1b
-revision=2
+version=1.21.3b
+revision=1
 archs="x86_64 aarch64"
 short_desc="Calmer, more privacy-focused Firefox-based browser"
 maintainer="Mark <mark@example.com>"
@@ -9,7 +9,7 @@ license="MPL-2.0"
 homepage="https://zen-browser.com"
 changelog="https://github.com/zen-browser/desktop/releases"
 distfiles="https://github.com/zen-browser/desktop/releases/download/${version}/zen.linux-${XBPS_TARGET_MACHINE}.tar.xz"
-checksum="a7facf3f12fe604f0bc5af3d93d8a5ef7325a3c6007fdcfc2aae6aa5e8100ed9
+checksum="a0ceeaf931c15d7c37de4faef4ea247eeb10e4b85a9e44b6304277bf3884ae4f
  25b33e6ac9c04efbfb2e5e3ca49c1b09f4ec0477e20e1f8aa077d51f5d4a4a43"
 
 create_wrksrc=yes

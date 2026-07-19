@@ -3,6 +3,10 @@
 
 my personal repository for custom Void Linux packages with automated builds via GitHub Actions.
 
+- Updated ROCM to 7.14.0
+- Updated vscode-bin to 1.129.1
+- Updated zen-browser to 1.21.8b
+
 Packages included are: 
 
 - hip-runtime-amd

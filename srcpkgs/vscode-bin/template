@@ -1,6 +1,6 @@
 # Template file for 'vscode-bin'
 pkgname=vscode-bin
-version=1.124.2
+version=1.129.1
 revision=1
 archs="x86_64"
 short_desc="Visual Studio Code - Code editing. Redefined (precompiled binary)"
@@ -9,7 +9,7 @@ license="MIT"
 homepage="https://code.visualstudio.com"
 changelog="https://code.visualstudio.com/updates"
 distfiles="https://update.code.visualstudio.com/${version}/linux-x64/stable>vscode-${version}-x64.tar.gz"
-checksum="2f4a3dfafc5f0249ad38726f99fd06f1621ba776d78c0bae200b53b45bdbc234"
+checksum="722781eceec7436a095454f839f99a4e85c787aa453e9064edd96d299f024953"
 
 create_wrksrc=yes
 lib32disabled=yes

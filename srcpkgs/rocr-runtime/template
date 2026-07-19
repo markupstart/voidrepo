@@ -1,8 +1,9 @@
 # Template file for 'rocr-runtime'
 pkgname=rocr-runtime
-version=7.2.4
+version=7.14.0
 revision=1
 build_style=cmake
+build_wrksrc=projects/rocr-runtime
 configure_args="
  -G Ninja
  -DCMAKE_BUILD_TYPE=Release
@@ -16,9 +17,9 @@ shlib_provides="libhsa-runtime64.so.1"
 short_desc="ROCm HSA runtime (ROCr)"
 maintainer="mark <mark@local>"
 license="NCSA"
-homepage="https://github.com/ROCm/ROCR-Runtime"
-distfiles="https://github.com/ROCm/ROCR-Runtime/archive/refs/tags/rocm-${version}.tar.gz"
-checksum=60532cd86edce5a603aa18df406ec1f5a3d18f0663d79b3b7822ff721c5a04ec
+homepage="https://github.com/ROCm/rocm-systems/tree/therock-7.14/projects/rocr-runtime"
+distfiles="https://github.com/ROCm/rocm-systems/archive/refs/tags/therock-7.14.tar.gz"
+checksum=8cadf0d5c0f53f334b7b940a78619d1746c913b26ae719e2a09e20a6f7128330
 
 pre_build() {
  export ROCM_PATH=/usr

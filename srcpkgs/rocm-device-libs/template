@@ -1,6 +1,6 @@
 # Template file for 'rocm-device-libs'
 pkgname=rocm-device-libs
-version=7.2.4
+version=7.14.0
 revision=1
 build_style=cmake
 build_wrksrc=amd/device-libs
@@ -17,7 +17,7 @@ short_desc="ROCm device libraries for AMDGPU targets"
 maintainer="mark <mark@local>"
 license="MIT"
 homepage="https://github.com/ROCm/llvm-project"
-distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-${version}.tar.gz"
-checksum=526b5fe23417c41acbeb2273e470887b4593f48a297a8d9c1a1aa730d556f9fb
+distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/therock-7.14.tar.gz"
+checksum=db365c1f0ab500eeee04a990d29d79a6bb667874f8069f7b69920ca62c352d2f
 
 # Note: For ROCm 7.x, device-libs sources are carried in llvm-project under amd/device-libs.

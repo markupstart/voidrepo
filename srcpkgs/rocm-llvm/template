@@ -1,6 +1,6 @@
 # Template file for 'rocm-llvm'
 pkgname=rocm-llvm
-version=7.2.4
+version=7.14.0
 revision=1
 build_style=cmake
 build_wrksrc=llvm
@@ -20,8 +20,8 @@ short_desc="ROCm LLVM/Clang toolchain with AMDGPU target"
 maintainer="mark <mark@local>"
 license="Apache-2.0 WITH LLVM-exception"
 homepage="https://github.com/ROCm/llvm-project"
-distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-${version}.tar.gz"
-checksum=526b5fe23417c41acbeb2273e470887b4593f48a297a8d9c1a1aa730d556f9fb
+distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/therock-7.14.tar.gz"
+checksum=db365c1f0ab500eeee04a990d29d79a6bb667874f8069f7b69920ca62c352d2f
 python_version=3
 
 # Notes:

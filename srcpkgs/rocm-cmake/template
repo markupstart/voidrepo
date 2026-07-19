@@ -1,6 +1,6 @@
 # Template file for 'rocm-cmake'
 pkgname=rocm-cmake
-version=7.2.4
+version=7.14.0
 revision=1
 build_style=cmake
 configure_args="
@@ -12,6 +12,6 @@ short_desc="ROCm CMake modules"
 maintainer="mark <mark@local>"
 license="MIT"
 homepage="https://github.com/ROCm/rocm-cmake"
-distfiles="https://github.com/ROCm/rocm-cmake/archive/refs/tags/rocm-${version}.tar.gz"
-checksum=e7a28cb4baf8afbc21204d37e132dae7e12b2d980a2600948fe35cc4d8ac8087
+distfiles="https://github.com/ROCm/rocm-cmake/archive/refs/tags/therock-7.14.tar.gz"
+checksum=458201284c5089a47f3ca17584dfc2b166a21a8f4b6f2502fbd258d07620f3c3
 

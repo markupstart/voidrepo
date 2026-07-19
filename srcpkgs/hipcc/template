@@ -1,6 +1,6 @@
 # Template file for 'hipcc'
 pkgname=hipcc
-version=7.2.4
+version=7.14.0
 revision=1
 build_style=cmake
 build_wrksrc=amd/hipcc
@@ -14,14 +14,15 @@ configure_args="
 hostmakedepends="cmake ninja pkg-config python3 perl"
 makedepends="rocm-llvm"
 depends="hip-runtime-amd rocm-llvm"
-short_desc="HIP compiler driver (hipcc and hipconfig)"
+short_desc="HIP compiler compatibility wrapper (hipcc and hipconfig)"
 maintainer="mark <mark@local>"
 license="MIT"
-homepage="https://github.com/ROCm/llvm-project/tree/amd-staging/amd/hipcc"
-distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-${version}.tar.gz"
-checksum=526b5fe23417c41acbeb2273e470887b4593f48a297a8d9c1a1aa730d556f9fb
+homepage="https://github.com/ROCm/llvm-project/tree/therock-7.14/amd/hipcc"
+distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/therock-7.14.tar.gz"
+checksum=db365c1f0ab500eeee04a990d29d79a6bb667874f8069f7b69920ca62c352d2f
 
-# Note: ROCm 7.x carries hipcc in llvm-project under amd/hipcc.
+# Note: ROCm documents HIPCC as deprecated as of 7.2.0; AMD Clang is the preferred entry point.
+# This package remains for compatibility with existing hipcc-based build flows.
 
 post_install() {
  mv "${DESTDIR}/usr/bin/hipcc" "${DESTDIR}/usr/bin/hipcc.bin"
@@ -53,4 +54,3 @@ bindir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
 exec "${bindir}/hipconfig.bin" "$@"
 EOF
 }
-

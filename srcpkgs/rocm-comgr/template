@@ -1,6 +1,6 @@
 # Template file for 'rocm-comgr'
 pkgname=rocm-comgr
-version=7.2.4
+version=7.14.0
 revision=1
 build_style=cmake
 build_wrksrc=amd/comgr
@@ -17,8 +17,8 @@ depends="rocm-llvm rocm-device-libs"
 short_desc="ROCm Code Object Manager library"
 maintainer="mark <mark@local>"
 license="Apache-2.0 WITH LLVM-exception"
-homepage="https://github.com/ROCm/llvm-project/tree/amd-staging/amd/comgr"
-distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/rocm-${version}.tar.gz"
-checksum=526b5fe23417c41acbeb2273e470887b4593f48a297a8d9c1a1aa730d556f9fb
+homepage="https://github.com/ROCm/llvm-project/tree/therock-7.14/amd/comgr"
+distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/therock-7.14.tar.gz"
+checksum=db365c1f0ab500eeee04a990d29d79a6bb667874f8069f7b69920ca62c352d2f
 
 # Note: For ROCm 7.x, amd_comgr sources are carried in llvm-project under amd/comgr.

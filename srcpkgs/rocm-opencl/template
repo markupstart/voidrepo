@@ -1,7 +1,7 @@
 # Template file for 'rocm-opencl'
 pkgname=rocm-opencl
 version=7.14.0
-revision=1
+revision=2
 build_style=cmake
 build_wrksrc=projects/clr
 configure_args="
@@ -31,10 +31,50 @@ post_extract() {
 }
 
 post_install() {
- vinstall /dev/stdin 644 etc/OpenCL/vendors amdocl64.icd <<'EOF'
-libamdocl64.so
+ local icd_lib=
+ local icd_entry=
+ local search_dirs=(
+  "${DESTDIR}/usr/lib64/opencl"
+  "${DESTDIR}/usr/lib/opencl"
+  "${DESTDIR}/usr/lib64"
+  "${DESTDIR}/usr/lib"
+ )
+
+ for dir in "${search_dirs[@]}"; do
+  [[ -d "${dir}" ]] || continue
+  for cand in libamdocl64.so libamdocl12cl64.so libamdocl-orca64.so; do
+   if [[ -e "${dir}/${cand}" ]]; then
+    icd_lib="${cand}"
+    icd_entry="${dir#${DESTDIR}}/${cand}"
+    break 2
+   fi
+  done
+ done
+
+ if [[ -z "${icd_entry}" ]]; then
+  for dir in "${search_dirs[@]}"; do
+   [[ -d "${dir}" ]] || continue
+   for so in "${dir}"/libamdocl*.so; do
+    if [[ -e "${so}" ]]; then
+     icd_lib="$(basename "${so}")"
+     icd_entry="${so#${DESTDIR}}"
+     break 2
+    fi
+   done
+  done
+ fi
+
+ if [[ -z "${icd_entry}" ]]; then
+  msg_error "No libamdocl*.so found in ${DESTDIR}/usr/lib{,64}{,/opencl}; cannot generate OpenCL ICD file.\n"
+ fi
+
+ vinstall /dev/stdin 644 etc/OpenCL/vendors amdocl64.icd <<EOF
+${icd_entry}
 EOF
  vinstall /dev/stdin 644 etc/ld.so.conf.d 10-rocm-opencl.conf <<'EOF'
+/usr/lib64/opencl
+/usr/lib/opencl
+/usr/lib64
 /usr/lib
 EOF
 }

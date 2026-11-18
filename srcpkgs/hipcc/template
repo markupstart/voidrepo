@@ -1,6 +1,6 @@
 # Template file for 'hipcc'
 pkgname=hipcc
-version=7.14.0
+version=10.2.0
 revision=1
 build_style=cmake
 build_wrksrc=amd/hipcc
@@ -17,9 +17,9 @@ depends="hip-runtime-amd rocm-llvm"
 short_desc="HIP compiler compatibility wrapper (hipcc and hipconfig)"
 maintainer="mark <mark@local>"
 license="MIT"
-homepage="https://github.com/ROCm/llvm-project/tree/therock-7.14/amd/hipcc"
-distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/therock-7.14.tar.gz"
-checksum=db365c1f0ab500eeee04a990d29d79a6bb667874f8069f7b69920ca62c352d2f
+homepage="https://github.com/ROCm/llvm-project/tree/therock-10.2/amd/hipcc"
+distfiles="https://github.com/ROCm/llvm-project/archive/refs/tags/therock-10.2.tar.gz"
+checksum=a1955ec80de8cb48dc6302a88b57e50d6af944e0715afc794d266c7660e321a6
 
 # Note: ROCm documents HIPCC as deprecated as of 7.2.0; AMD Clang is the preferred entry point.
 # This package remains for compatibility with existing hipcc-based build flows.

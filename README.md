@@ -3,9 +3,9 @@
 
 my personal repository for custom Void Linux packages with automated builds via GitHub Actions.
 
-- Updated ROCM to 7.14.0
+- Updated ROCM to 10.2.0
 - Updated vscode-bin to 1.129.1
-- Updated zen-browser to 1.21.8b
+- Updated zen-browser to 1.24.9b
 
 Packages included are: 
 
